@@ -1,0 +1,1 @@
+docker run -d -p 3306:3306 --name mysql-docker-container --network host -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=db -e MYSQL_USER=user -e MYSQL_PASSWORD=password mysql/mysql-server:latest
