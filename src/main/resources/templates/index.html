@@ -1,0 +1,29 @@
+<div th:switch="${tasks}" xmlns:th="http://www.w3.org/1999/xhtml">
+    <h2 th:case="null">No Tasks yet!</h2>
+    <div th:case="*">
+        <h2>Tasks</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Location</th>
+                <th>Description</th>
+                <th>Start</th>
+                <th>End</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="task : ${tasks}">
+                <td th:text="${task.title}"></td>
+                <td th:text="${task.location}"></td>
+                <td th:text="${task.description}"></td>
+                <td th:text="${task.start}"></td>
+                <td th:text="${task.end}"></td>
+                <td><a th:href="@{/tasks/edit/{id}(id=${task.id})}">Edit</a></td>
+                <td><a th:href="@{/tasks/delete/{id}(id=${task.id})}">Delete</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <p><a href="/tasks/add">Add a new task</a></p>
+</div>
