@@ -4,6 +4,10 @@ import com.task.managment.exciptions.RecordNotFoundException;
 import com.task.managment.model.Task;
 import com.task.managment.service.GoogleCalenderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +34,7 @@ public class TaskController {
     GoogleCalenderController googleCalenderController;
 
     @GetMapping
-    public ResponseEntity<List<Task>> getAllEmployees() {
+    public ResponseEntity<List<Task>> getAllTasks() {
         List<Task> list = taskService.getAllTasks();
 
         return new ResponseEntity<List<Task>>(list, new HttpHeaders(), HttpStatus.OK);

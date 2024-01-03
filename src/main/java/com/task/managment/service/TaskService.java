@@ -1,6 +1,6 @@
 package com.task.managment.service;
 
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.*;
 import com.task.managment.exciptions.RecordNotFoundException;
 import com.task.managment.model.Task;
 import com.task.managment.repository.TaskRepository;
@@ -12,12 +12,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@CacheConfig(cacheNames = {"fpcache"})
 public class TaskService {
     @Autowired
     TaskRepository repository;
 
-
-    @Cacheable("tasks")
+    @Cacheable("fpcache")
     public List<Task> getAllTasks()
     {
         List<Task> taskList = (List<Task>) repository.findAll();
@@ -29,6 +29,7 @@ public class TaskService {
         }
     }
 
+    @Cacheable(value = "fpcache",key = "#id")
     public Task getTaskById(Long id) throws RecordNotFoundException
     {
         Optional<Task> task = repository.findById(id);
@@ -40,12 +41,17 @@ public class TaskService {
         }
     }
 
+//    @CachePut(value = "fpcache",key = "#entity.id")
+    @CacheEvict(allEntries = true)
     public Task createTask(Task entity)
     {
             entity = repository.save(entity);
             return entity;
     }
 
+
+//    @CachePut(value = "fpcache",key = "#id")
+    @CacheEvict(allEntries = true)
     public Task updateTask(Task entity) throws RecordNotFoundException
     {
         Optional<Task> task = repository.findById(entity.getId());
@@ -66,6 +72,7 @@ public class TaskService {
 
     }
 
+    @CacheEvict(allEntries = true)
     public void deleteTaskById(Long id) throws RecordNotFoundException
     {
         Optional<Task> task = repository.findById(id);
